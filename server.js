@@ -1,6 +1,7 @@
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var exphbs = require("express-handlebars");
 
 // Our scraping tools
 var axios = require("axios");
@@ -9,7 +10,7 @@ var cheerio = require("cheerio");
 // Require all models
 var db = require("./models");
 
-var PORT = 8080;
+var PORT = process.env.PORT || 8080;
 
 // Initialize Express
 var app = express();
@@ -22,8 +23,9 @@ app.use(logger("dev"));
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// Make public a static folder
-app.use(express.static("public"));
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/newsscraper", { useNewUrlParser: true });
@@ -60,14 +62,14 @@ app.get("/scrape", function(req, res){
         // Create a new article using the data captured above
         db.Article.create(result)
             .then(function(dbArticle){
-                console.log(dbArticle);
+                console.log(dbArticle)
             })
             .catch(function(err){
                 console.log(err);
             });
         });
-
-        res.send("Scrape Complete")
+        // send complete message
+        res.send("Scrape Complete");
     });
 });
 
@@ -76,9 +78,9 @@ app.get("/articles", function(req, res){
 
     // grab all articles from database
     db.Article.find({})
-        .then(function(dbArticle){
-            // send back json yo
-            res.json(dbArticle)
+        .then(function(Articles){
+            console.log(Articles)
+            res.render("index", Articles );
         })
         .catch(function(err){
             res.json(err)
@@ -127,5 +129,5 @@ app.post("/articles/:id", function(req, res){
 // Start the server
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
-  });
+});
   
