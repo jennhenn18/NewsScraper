@@ -2,5 +2,10 @@
 
 <ul>
     {{#each Articles}}
+    <li>
+        <h5>{{@title}} : {{this}}</h5>
+        <p>{{@summary}} : {{this}}</p>
+        <a href={{@link}} : {{this}}>Read more</a>
+    </li>
     {{/each}}
 </ul>
