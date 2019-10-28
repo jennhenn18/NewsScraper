@@ -1,11 +1,23 @@
-<h1>NPR Health Articles</h1>
+<h1 id="header">NPR Health Articles</h1>
 
-<ul>
-    {{#each Articles}}
-    <li>
-        <h5>{{@title}} : {{this}}</h5>
-        <p>{{@summary}} : {{this}}</p>
-        <a href={{@link}} : {{this}}>Read more</a>
-    </li>
-    {{/each}}
-</ul>
+<div id="articles">
+    <ul>
+        {{#each Articles}}
+        <li>
+            <h3 id="title">{{title}}</h3>
+            <p id="summary">{{summary}}</p></li>
+            <a id="link" href={{link}}>Read more</a>
+        </li>
+        {{/each}}
+    </ul>
+</div>
+
+
+<div id="notes">
+    <h2 id="article-title">{{log note}}</h2>
+    <input id="note-title"></input>
+    <textarea id="note-body"></textarea>
+    <button id="">Save Note</button>
+</div>
+
+

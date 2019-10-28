@@ -15,6 +15,11 @@ var PORT = process.env.PORT || 8080;
 // Initialize Express
 var app = express();
 
+//Serve static content for the app from the "public" directory in the application directory.
+// Static files include: client side javascript, css, and images
+// express.static is provided the relative path for our public folder
+app.use(express.static("public"));
+
 // Configure middleware
 // ==================================
 
@@ -80,7 +85,9 @@ app.get("/articles", function(req, res){
     db.Article.find({})
         .then(function(Articles){
             console.log(Articles)
-            res.render("index", Articles );
+
+            var articles = {Articles}
+            res.render("index", articles );
         })
         .catch(function(err){
             res.json(err)
@@ -95,9 +102,11 @@ app.get("/articles/:id", function(req, res){
 
         // populate the notes aka display note if it is populated
         .populate("note")
-        .then(function(dbArticle){
-            // return article
-            res.json(dbArticle)
+        .then(function(dbNote){
+            console.log(dbNote)
+            // return Note
+            var note = {dbNote}
+            res.render("index", note );
         }) 
         .catch(function(err){
             // show error
