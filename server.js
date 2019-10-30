@@ -85,7 +85,6 @@ app.get("/articles", function(req, res){
     // grab all articles from database
     db.Article.find({})
         .then(function(Articles){
-            console.log(Articles)
 
             var articles = {Articles}
             res.render("index", articles );
@@ -102,12 +101,12 @@ app.get("/articles/:id", function(req, res){
     db.Article.findOne({ _id: req.params.id})
 
         // populate the notes aka display note if it is populated
-        .populate("note")
-        .then(function(dbNote){
-            console.log(dbNote)
+        .populate("comment")
+        .then(function(dbComment){
+            console.log(dbComment)
             // return Note
-            var note = {dbNote}
-            res.render("index", note );
+            var comment = {dbComment}
+            res.render("index", comment );
         }) 
         .catch(function(err){
             // show error
@@ -115,14 +114,14 @@ app.get("/articles/:id", function(req, res){
         });
 });
 
-// create an note for an article
+// create an comment for an article
 app.post("/articles/:id", function(req, res){
 
     // create a new note and give it the body
-    db.Note.create(req.body)
-        .then(function(dbNote){
+    db.Comment.create(req.body)
+        .then(function(dbComment){
             // create note if successful
-            return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
         })
         .then(function(dbArticle){
             // return results
