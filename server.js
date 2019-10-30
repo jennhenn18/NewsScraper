@@ -72,9 +72,10 @@ app.get("/scrape", function(req, res){
             .catch(function(err){
                 console.log(err);
             });
-        });
+            
         // send complete message
         res.send("Scrape Complete");
+        });
     });
 });
 
