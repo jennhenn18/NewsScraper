@@ -117,11 +117,15 @@ app.get("/articles/:id", function(req, res){
 // create an comment for an article
 app.post("/articles/:id", function(req, res){
 
+    let commentInput = {
+        comment: req.body.comment 
+    }
+
     // create a new note and give it the body
-    db.Comment.create(req.body)
+    db.Comment.create(commentInput)
         .then(function(dbComment){
             // create note if successful
-            return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { comment: dbComment._id } }, { new: true });
         })
         .then(function(dbArticle){
             // return results

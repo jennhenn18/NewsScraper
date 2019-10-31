@@ -5,7 +5,10 @@ var Schema = mongoose.Schema;
 
 // Create Note schema
 var CommentSchema = new Schema({
-    body: String
+    comment: {
+        type: String,
+        required: true
+    }
 });
 
 // create a model from the above schema
