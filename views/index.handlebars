@@ -6,34 +6,40 @@
 
     <div class="row">
 
-        <div class="col-12 card" id="articles">
-            <ul class="row cardbody">
-                {{#each Articles}}
-                <li>
-                    <div id="col-12 scrapedData">
-                        <h5 id="title">{{title}}</h5>
-                        <p id="summary">{{summary}}</p></li>
-                        <a id="link" href={{link}}>Read more</a>
+        {{#each Articles}}
+         {{log Articles}}
+        <div class="col-12" id="articles">
+            <div class="row">
+                    <div class="col-6  card" id="scrapedData">
+                        <div class="cardbody">
+                            <h5 id="title">{{title}}</h5>
+                            <p id="summary">{{summary}}</p></li>
+                            <a id="link" href={{link}}>Read more</a>
+                        </div>
                     </div>
 
                     {{!-- add form --}}
 
                     <div class="col-5 card" id="commentInput">
                         <div class="cardbody">
-                            <h5 id="title">{{title}}</h5>
                             <form action="/articles/{{this.id}}" method="POST">
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Enter comment here</label>
+                                {{#each Articles}}
+                               
+                                <label for="currentcomment">Current comment:</label>
+                                <p id="currentcomment">{{comment}}</p>
+                                {{/each}}
+                                <label for="exampleFormControlTextarea1">Enter a comment here</label>
                                 <input type="text" class="form-control" id="exampleFormControlTextarea1" name="comment"></input>
                                 <button type="submit" class="btn btn-primary mb-2">Save Comment</button>
                             </div>
                             </form>
+                            <button class="btn btn-secondary mb-2" id="deletecomment">Delete comment</button>
                         </div>
                     </div>
-                </li>
-                {{/each}}
-            </ul>
+            </div>
         </div>
+        {{/each}}
     </div>
 
 

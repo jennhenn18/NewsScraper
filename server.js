@@ -12,6 +12,10 @@ var db = require("./models");
 
 var PORT = process.env.PORT || 8080;
 
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newscraper";
+
+mongoose.connect(MONGODB_URI);
+
 // Initialize Express
 var app = express();
 
@@ -73,9 +77,10 @@ app.get("/scrape", function(req, res){
                 console.log(err);
             });
             
+        
+        });
         // send complete message
         res.send("Scrape Complete");
-        });
     });
 });
 
@@ -94,25 +99,25 @@ app.get("/articles", function(req, res){
         });
 });
 
-// grab a specific article, so when an article headline is clicked on we can pull in the note
-app.get("/articles/:id", function(req, res){
+// // grab a specific article, so when an article headline is clicked on we can pull in the note
+// app.get("/articles/:id", function(req, res){
 
-    // grab the specific article
-    db.Article.findOne({ _id: req.params.id})
+//     // grab the specific article
+//     db.Article.findOne({ _id: req.params.id})
 
-        // populate the notes aka display note if it is populated
-        .populate("comment")
-        .then(function(dbComment){
-            console.log(dbComment)
-            // return Note
-            var comment = {dbComment}
-            res.render("index", comment );
-        }) 
-        .catch(function(err){
-            // show error
-            res.json(err)
-        });
-});
+//         // populate the notes aka display note if it is populated
+//         .populate("comment")
+//         .then(function(Comment){
+//             console.log(Comment)
+//             // return Note
+//             var comment = {Comment}
+//             res.render("index", comment );
+//         }) 
+//         .catch(function(err){
+//             // show error
+//             res.json(err)
+//         });
+// });
 
 // create an comment for an article
 app.post("/articles/:id", function(req, res){
