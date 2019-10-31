@@ -7,7 +7,6 @@
     <div class="row">
 
         {{#each Articles}}
-         {{log Articles}}
         <div class="col-12" id="articles">
             <div class="row">
                     <div class="col-6  card" id="scrapedData">
@@ -24,17 +23,16 @@
                         <div class="cardbody">
                             <form action="/articles/{{this.id}}" method="POST">
                             <div class="form-group">
-                                {{#each Articles}}
-                               
                                 <label for="currentcomment">Current comment:</label>
-                                <p id="currentcomment">{{comment}}</p>
+                                {{#each this.comment}}
+                                <h5 id="currentcomment">{{comment}}</h5>
                                 {{/each}}
-                                <label for="exampleFormControlTextarea1">Enter a comment here</label>
+                                <br><label for="exampleFormControlTextarea1">Enter a comment here</label>
                                 <input type="text" class="form-control" id="exampleFormControlTextarea1" name="comment"></input>
                                 <button type="submit" class="btn btn-primary mb-2">Save Comment</button>
                             </div>
                             </form>
-                            <button class="btn btn-secondary mb-2" id="deletecomment">Delete comment</button>
+                            <button class="btn btn-secondary mb-2 deletecomment" id="{{this.id}}">Delete comment</button>
                         </div>
                     </div>
             </div>

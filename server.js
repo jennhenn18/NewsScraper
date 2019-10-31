@@ -71,7 +71,6 @@ app.get("/scrape", function(req, res){
         // Create a new article using the data captured above
         db.Article.create(result)
             .then(function(dbArticle){
-                console.log(dbArticle)
             })
             .catch(function(err){
                 console.log(err);
@@ -89,6 +88,7 @@ app.get("/articles", function(req, res){
 
     // grab all articles from database
     db.Article.find({})
+        .populate("comment")
         .then(function(Articles){
 
             var articles = {Articles}
@@ -98,26 +98,6 @@ app.get("/articles", function(req, res){
             res.json(err)
         });
 });
-
-// // grab a specific article, so when an article headline is clicked on we can pull in the note
-// app.get("/articles/:id", function(req, res){
-
-//     // grab the specific article
-//     db.Article.findOne({ _id: req.params.id})
-
-//         // populate the notes aka display note if it is populated
-//         .populate("comment")
-//         .then(function(Comment){
-//             console.log(Comment)
-//             // return Note
-//             var comment = {Comment}
-//             res.render("index", comment );
-//         }) 
-//         .catch(function(err){
-//             // show error
-//             res.json(err)
-//         });
-// });
 
 // create an comment for an article
 app.post("/articles/:id", function(req, res){
@@ -140,6 +120,18 @@ app.post("/articles/:id", function(req, res){
         .catch(function(err){
             res.json(err)
         });
+});
+
+// delete a comment
+app.delete("/articles/:id", function(req, res) {
+
+    db.Comment.findByIdAndDelete({ _id: req.params.id})
+    .then(function(dbComment){
+        console.log(dbComment)
+        res.json(dbComment)
+    }).catch(function(err){
+        console.log(err)
+    })
 });
 
 
